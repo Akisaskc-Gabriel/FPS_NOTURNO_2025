@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class ZombieAI : MonoBehaviour
@@ -9,6 +10,11 @@ public class ZombieAI : MonoBehaviour
     public float detectionRange = 10f;
     public float attackRange = 2f;
     public ZombieState currentState = ZombieState.Idle;
+
+    float canMoveCounter = 0f;
+    bool canMove = true;
+
+    public GameObject attackCollider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -23,6 +29,8 @@ public class ZombieAI : MonoBehaviour
     {
         if (currentState == ZombieState.Dead) return;
 
+        CanMoveCounter();
+
         float distance = Vector3.Distance(transform.position, player.position);
 
         if (distance < attackRange)
@@ -36,6 +44,11 @@ public class ZombieAI : MonoBehaviour
         else
         {
             SetState(ZombieState.Idle);
+        }
+
+        if (currentState == ZombieState.Attacking)
+        {
+            canMove = false;
         }
 
         UpdateAnimator();
@@ -89,7 +102,7 @@ public class ZombieAI : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (currentState == ZombieState.Walking)
+        if (currentState == ZombieState.Walking && canMove)
             MoveZombie();
     }
 
@@ -99,6 +112,29 @@ public class ZombieAI : MonoBehaviour
         Vector3 newPos = rb.position + direction * speed * Time.deltaTime;
         transform.LookAt(new Vector3(player.position.x, transform.position.y, player.position.z));
         rb.MovePosition(newPos);
+    }
+
+    void CanMoveCounter()
+    {
+        if (canMove == false)
+        {
+            canMoveCounter += Time.deltaTime;
+            if (canMoveCounter >= 1.8f)
+            {
+                canMove = true;
+                canMoveCounter = 0f;
+            }
+        }
+    }
+
+    public void EnableAttack()
+    {
+        attackCollider.SetActive(true);
+    }
+
+    public void DisableAttack()
+    {
+        attackCollider.SetActive(false);
     }
 
 }
