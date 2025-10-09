@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterBase
 {
     public float jumpForce = 5f;
     public float speed = 5f;
@@ -81,7 +81,7 @@ public class PlayerController : MonoBehaviour
         Vector3 movementDirection =
             (cameraFoward * movementInput.y + cameraRight * movementInput.x).normalized;
 
-        //IF Ternário
+        //IF Ternï¿½rio
         //float currentSpeed = isRunning ? runSpeed : speed;
 
         float currentSpeed;
@@ -99,12 +99,17 @@ public class PlayerController : MonoBehaviour
         rb.MovePosition(rb.transform.position + displacement);
     }
 
+    protected override void Die()
+    {
+        Destroy(gameObject);
+    }
+
     private void OnDrawGizmos()
     {
         if (footPosition != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(footPosition.position, 
+            Gizmos.DrawLine(footPosition.position,
                 footPosition.position + Vector3.down * 0.05f);
         }
     }

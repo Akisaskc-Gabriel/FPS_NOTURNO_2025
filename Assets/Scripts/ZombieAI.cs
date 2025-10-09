@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-public class ZombieAI : MonoBehaviour
+public class ZombieAI : CharacterBase
 {
     private Animator animator;
     private Transform player;
@@ -63,13 +63,16 @@ public class ZombieAI : MonoBehaviour
         }
     }
 
-    public void TakeDamage()
+    public override void TakeDamage(float damage)
     {
+        if (currentState == ZombieState.Dead) return;
+        base.TakeDamage(damage);
         SetState(ZombieState.Damaged);
+        canMove = false;
         UpdateAnimator();
     }
 
-    public void Die()
+    protected override void Die()
     {
         SetState(ZombieState.Dead);
         UpdateAnimator();
