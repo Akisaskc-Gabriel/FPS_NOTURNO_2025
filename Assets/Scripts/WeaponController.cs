@@ -8,11 +8,15 @@ public class WeaponController : MonoBehaviour
     public float range = 100f;
     Camera playerCamera;
     PlayerInput playerInput;
+    [SerializeField] Animator animator;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         playerInput = GameObject.FindWithTag("Player").GetComponent<PlayerInput>();
         playerCamera = Camera.main;
+        if (animator == null)
+            animator = GetComponentInParent<Animator>();
     }
 
     // Update is called once per frame
@@ -20,7 +24,12 @@ public class WeaponController : MonoBehaviour
     {
         if (playerInput != null && playerInput.actions["Attack"].triggered)
         {
+            animator.SetTrigger("shoot");
             Shoot();
+        }
+        if (playerInput != null && playerInput.actions["Reload"].triggered)
+        {
+            animator.SetTrigger("reload");
         }
     }
 

@@ -14,6 +14,9 @@ public class ZombieAI : CharacterBase
     float canMoveCounter = 0f;
     bool canMove = true;
 
+    public float zombieDamage = 10f;
+    bool isDead = false;
+
     public GameObject attackCollider;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -27,6 +30,8 @@ public class ZombieAI : CharacterBase
     // Update is called once per frame
     void Update()
     {
+        if (isDead) currentState = ZombieState.Dead;
+
         if (currentState == ZombieState.Dead) return;
 
         CanMoveCounter();
@@ -74,8 +79,14 @@ public class ZombieAI : CharacterBase
 
     protected override void Die()
     {
+        isDead = true;
         SetState(ZombieState.Dead);
         UpdateAnimator();
+
+        Collider collider = GetComponent<Collider>();
+        if (collider != null) collider.enabled = false;
+        if (rb != null) rb.isKinematic = true;
+        this.enabled = false;
     }
 
     void UpdateAnimator()
@@ -138,6 +149,18 @@ public class ZombieAI : CharacterBase
     public void DisableAttack()
     {
         attackCollider.SetActive(false);
+    }
+
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            PlayerController player = other.GetComponent<PlayerController>();
+            if (player != null)
+            {
+                player.TakeDamage(zombieDamage);
+            }
+        }
     }
 
 }
