@@ -104,6 +104,14 @@ public class PlayerController : CharacterBase
         Destroy(gameObject);
     }
 
+    public void AddHealth(int amount)
+    {
+        currentHealth += amount;
+        //currentHealth = Mathf.Min(currentHealth, maxHealth);
+        if (currentHealth > maxHealth)
+            currentHealth = maxHealth;
+    }
+
     private void OnDrawGizmos()
     {
         if (footPosition != null)

@@ -37,7 +37,7 @@ public abstract class CollectibleBase : MonoBehaviour
         if (renderers != null)
         {
             foreach (var r in renderers)
-                r.enabled = true;
+                r.enabled = active;
         }
     }
 

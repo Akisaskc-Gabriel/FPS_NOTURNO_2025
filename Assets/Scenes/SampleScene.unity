@@ -1401,6 +1401,29 @@ MonoBehaviour:
   collectEffect: {fileID: 1702657300312902, guid: a45c51da10cf1a84abc6a99c06951e3f, type: 3}
   respawnTime: 5
   ammoAmount: 15
+--- !u!1 &1729690194444283541 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7462502568882372159, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+  m_PrefabInstance: {fileID: 7820619207080124996}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1865847953039053448
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729690194444283541}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ae89747ed09a5e24d88f8f5c92fee437, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotate: 1
+  rotationSpeed: 90
+  collectSound: {fileID: 0}
+  collectEffect: {fileID: 1702657300312902, guid: a45c51da10cf1a84abc6a99c06951e3f, type: 3}
+  respawnTime: 5
+  healthAmmount: 15
 --- !u!1001 &3033305411008496134
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1461,6 +1484,66 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 135030472372497705}
   m_SourcePrefab: {fileID: 100100000, guid: e642555bda2f0fb49aa1e41aed2f099b, type: 3}
+--- !u!1001 &7820619207080124996
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 5644721183166502414, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 523.91473
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644721183166502414, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.645
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644721183166502414, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 530.01
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644721183166502414, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644721183166502414, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644721183166502414, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644721183166502414, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644721183166502414, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644721183166502414, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5644721183166502414, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7462502568882372159, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      propertyPath: m_Name
+      value: HealthPlusRed
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7462502568882372159, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1865847953039053448}
+  m_SourcePrefab: {fileID: 100100000, guid: 79a9bd54f6b59e74091b2e6194ec0ba7, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -1474,3 +1557,4 @@ SceneRoots:
   - {fileID: 987943243}
   - {fileID: 1350524531}
   - {fileID: 3033305411008496134}
+  - {fileID: 7820619207080124996}
