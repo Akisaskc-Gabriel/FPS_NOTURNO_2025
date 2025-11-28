@@ -82,7 +82,7 @@ public class ZombieAI : CharacterBase
         isDead = true;
         SetState(ZombieState.Dead);
         UpdateAnimator();
-
+        player.GetComponent<PlayerController>().score += 1;
         Collider collider = GetComponent<Collider>();
         if (collider != null) collider.enabled = false;
         if (rb != null) rb.isKinematic = true;

@@ -89,4 +89,9 @@ public class WeaponController : MonoBehaviour
             reserveAmmo = maxAmmo;
     }
 
+    public string GetAmmoStatus()
+    {
+        return currentAmmo + "/" + reserveAmmo;
+    }
+
 }

@@ -16,6 +16,7 @@ public class PlayerController : CharacterBase
     private float cameraPitch = 0f;
     private bool isGrounded = false;
     private bool isRunning = false;
+    public int score;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -30,6 +31,7 @@ public class PlayerController : CharacterBase
     void Update()
     {
         movementInput = playerInput.actions["Move"].ReadValue<Vector2>();
+        //Input.GetAxis("Horizontal")Vertical 
         lookInput = playerInput.actions["Look"].ReadValue<Vector2>();
         isRunning = playerInput.actions["Sprint"].IsPressed();
         RotatePlayer();
@@ -110,6 +112,12 @@ public class PlayerController : CharacterBase
         //currentHealth = Mathf.Min(currentHealth, maxHealth);
         if (currentHealth > maxHealth)
             currentHealth = maxHealth;
+    }
+
+    public float GetHealthPercentage()
+    {
+        float healthPercentage = currentHealth / maxHealth;
+        return healthPercentage;
     }
 
     private void OnDrawGizmos()
