@@ -3,62 +3,69 @@ using UnityEngine.InputSystem;
 
 public class PlayerController : CharacterBase
 {
+    [Header("Movimento")]
     public float jumpForce = 5f;
     public float speed = 5f;
     public float runSpeed = 10f;
     public Transform footPosition;
+
+    [Header("Mouse/Camera")]
+    public float mouseSensitivity = 1f;
+
+    [Header("Referências")]
+    public UIController uiController; // arraste o UIController aqui
     private PlayerInput playerInput;
     private Rigidbody rb;
-    private Vector2 movementInput;
     private Camera mainCamera;
+
+    [Header("Status")]
+    private Vector2 movementInput;
     private Vector2 lookInput;
-    public float mouseSensitivity = 1f;
     private float cameraPitch = 0f;
     private bool isGrounded = false;
     private bool isRunning = false;
-    public int score;
 
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Cursor.lockState = CursorLockMode.Locked;
         playerInput = GetComponent<PlayerInput>();
         rb = GetComponent<Rigidbody>();
         mainCamera = Camera.main;
     }
 
-    // Update is called once per frame
     void Update()
     {
+        if (currentHealth <= 0)
+        {
+            if (uiController != null)
+                uiController.GameOver();
+            return;
+        }
+
         movementInput = playerInput.actions["Move"].ReadValue<Vector2>();
-        //Input.GetAxis("Horizontal")Vertical 
         lookInput = playerInput.actions["Look"].ReadValue<Vector2>();
         isRunning = playerInput.actions["Sprint"].IsPressed();
+
         RotatePlayer();
         RotateCamera();
+
         if (playerInput.actions["Jump"].triggered && isGrounded)
-        {
             Jump();
-        }
     }
 
-    void RotatePlayer() 
+    void RotatePlayer()
     {
         float mouseX = lookInput.x * mouseSensitivity * Time.deltaTime;
         transform.Rotate(Vector3.up * mouseX);
     }
 
-    void RotateCamera() 
+    void RotateCamera()
     {
         cameraPitch -= lookInput.y * mouseSensitivity * Time.deltaTime;
-        
         cameraPitch = Mathf.Clamp(cameraPitch, -80f, 80f);
-
-        mainCamera.transform.localEulerAngles = 
-            new Vector3(cameraPitch, 0f, 0f);
+        mainCamera.transform.localEulerAngles = new Vector3(cameraPitch, 0f, 0f);
     }
 
-    void Jump() 
+    void Jump()
     {
         rb.AddForce(Vector3.up * jumpForce, ForceMode.Impulse);
         isGrounded = false;
@@ -70,54 +77,52 @@ public class PlayerController : CharacterBase
         Move();
     }
 
-    void Move() 
+    void Move()
     {
-        Vector3 cameraFoward = mainCamera.transform.forward;
-        cameraFoward.y = 0;
-        cameraFoward.Normalize();
+        Vector3 cameraForward = mainCamera.transform.forward;
+        cameraForward.y = 0;
+        cameraForward.Normalize();
 
         Vector3 cameraRight = mainCamera.transform.right;
         cameraRight.y = 0;
         cameraRight.Normalize();
 
-        Vector3 movementDirection =
-            (cameraFoward * movementInput.y + cameraRight * movementInput.x).normalized;
+        Vector3 movementDirection = (cameraForward * movementInput.y + cameraRight * movementInput.x).normalized;
 
-        //IF Tern�rio
-        //float currentSpeed = isRunning ? runSpeed : speed;
+        float currentSpeed = isRunning ? runSpeed : speed;
 
-        float currentSpeed;
-
-        if (isRunning) 
-        {
-            currentSpeed = runSpeed;
-        }else
-        {
-            currentSpeed = speed;
-        }
-
-        Vector3 displacement = movementDirection * currentSpeed * Time.deltaTime;
-
-        rb.MovePosition(rb.transform.position + displacement);
+        Vector3 displacement = movementDirection * currentSpeed * Time.fixedDeltaTime;
+        rb.MovePosition(rb.position + displacement);
     }
 
-    protected override void Die()
-    {
-        Destroy(gameObject);
-    }
+    // =====================================================
+    //                     VIDA
+    // =====================================================
 
     public void AddHealth(int amount)
     {
         currentHealth += amount;
-        //currentHealth = Mathf.Min(currentHealth, maxHealth);
         if (currentHealth > maxHealth)
             currentHealth = maxHealth;
     }
 
+    public void TakeDamage(int amount)
+    {
+        currentHealth -= amount;
+        if (currentHealth < 0)
+            currentHealth = 0;
+    }
+
     public float GetHealthPercentage()
     {
-        float healthPercentage = currentHealth / maxHealth;
-        return healthPercentage;
+        return currentHealth / maxHealth;
+    }
+
+    protected override void Die()
+    {
+        if (uiController != null)
+            uiController.GameOver();
+        Destroy(gameObject);
     }
 
     private void OnDrawGizmos()
@@ -125,9 +130,7 @@ public class PlayerController : CharacterBase
         if (footPosition != null)
         {
             Gizmos.color = Color.red;
-            Gizmos.DrawLine(footPosition.position,
-                footPosition.position + Vector3.down * 0.05f);
+            Gizmos.DrawLine(footPosition.position, footPosition.position + Vector3.down * 0.05f);
         }
     }
-
 }
