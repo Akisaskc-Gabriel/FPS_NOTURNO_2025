@@ -24,6 +24,7 @@ public class PlayerController : CharacterBase
     private float cameraPitch = 0f;
     private bool isGrounded = false;
     private bool isRunning = false;
+    public float score;
 
     void Start()
     {
