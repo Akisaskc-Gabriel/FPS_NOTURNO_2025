@@ -15,6 +15,8 @@ public class UIController : MonoBehaviour
 
     private bool isPaused = false;
     private bool gameStarted = false;
+    public Transform respawnPoint;
+    public GameObject playerPrefab;
 
     void Start()
     {
@@ -102,21 +104,23 @@ public class UIController : MonoBehaviour
     }
 
     // =====================================================
-    //                     GAME OVER
+    //                     RESPWAN
     // =====================================================
 
-    public void GameOver()
+    public void Respawn()
     {
-        gameOverUI.SetActive(true);
-        gameplayUI.SetActive(false);
-        pauseUI.SetActive(false);
+        Time.timeScale = 1f;
 
-        Time.timeScale = 0f;
+        // reposiciona o player
+        playerPrefab.transform.position = respawnPoint.position;
+        playerPrefab.transform.rotation = respawnPoint.rotation;
 
-        Cursor.lockState = CursorLockMode.None;
-        Cursor.visible = true;
+        // reseta status (opcional)
+        var pc = playerPrefab.GetComponent<PlayerController>();
+        pc.currentHealth = pc.maxHealth;
 
-        gameStarted = false;
-        isPaused = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+
     }
 }

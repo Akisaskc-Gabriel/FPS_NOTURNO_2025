@@ -3,8 +3,8 @@ using UnityEngine.Android;
 
 public abstract class CharacterBase : MonoBehaviour
 {
-    [SerializeField] protected float maxHealth = 100f;
-    [SerializeField] protected float currentHealth;
+    public float maxHealth = 100f;
+    public float currentHealth;
 
     protected virtual void Awake()
     {

@@ -26,6 +26,9 @@ public class PlayerController : CharacterBase
     private bool isRunning = false;
     public float score;
 
+    public GameObject gameOverUI;
+    public GameObject uiJogo;
+
     void Start()
     {
         playerInput = GetComponent<PlayerInput>();
@@ -35,13 +38,7 @@ public class PlayerController : CharacterBase
 
     void Update()
     {
-        if (currentHealth <= 0)
-        {
-            if (uiController != null)
-                uiController.GameOver();
-            return;
-        }
-
+      
         movementInput = playerInput.actions["Move"].ReadValue<Vector2>();
         lookInput = playerInput.actions["Look"].ReadValue<Vector2>();
         isRunning = playerInput.actions["Sprint"].IsPressed();
@@ -121,9 +118,12 @@ public class PlayerController : CharacterBase
 
     protected override void Die()
     {
-        if (uiController != null)
-            uiController.GameOver();
-        Destroy(gameObject);
+        gameOverUI.SetActive(true);
+        uiJogo.SetActive(false);
+        Cursor.lockState = CursorLockMode.None;
+        Cursor.visible = true;
+
+        Time.timeScale = 0f;
     }
 
     private void OnDrawGizmos()
